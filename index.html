@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Calendar</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="layout">
+    <section class="calendar" aria-label="Calendar">
+      <header class="calendar-header">
+        <button type="button" id="prev-month" aria-label="Previous month">&lsaquo;</button>
+        <h1 id="month-label"></h1>
+        <button type="button" id="next-month" aria-label="Next month">&rsaquo;</button>
+        <button type="button" id="today-btn">Today</button>
+      </header>
+      <div class="weekday-row">
+        <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+      </div>
+      <div id="calendar-grid" class="calendar-grid"></div>
+      <p class="hint">Tip: click a day to add it to the task's dates.</p>
+    </section>
+
+    <aside class="sidebar">
+      <form id="task-form" class="card">
+        <h2>Add a task</h2>
+        <label for="task-title">Task</label>
+        <input id="task-title" type="text" placeholder="e.g. Gym" required />
+
+        <label for="task-date">Specific days</label>
+        <div class="row">
+          <input id="task-date" type="date" />
+          <button type="button" id="add-date">Add day</button>
+        </div>
+        <ul id="selected-dates" class="chips"></ul>
+
+        <fieldset>
+          <legend>Repeat every</legend>
+          <div id="weekday-options" class="weekday-options"></div>
+        </fieldset>
+
+        <p id="form-error" class="error" role="alert"></p>
+        <button type="submit" class="primary">Save task</button>
+      </form>
+
+      <section class="card">
+        <h2>My tasks</h2>
+        <ul id="task-list" class="task-list"></ul>
+      </section>
+    </aside>
+  </main>
+
+  <script src="calendar.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
