@@ -29,6 +29,11 @@
     return toDateKey(date) === key ? date : null;
   }
 
+  /** Whether a Date is selectable (weekends are unavailable). */
+  function isSelectableDate(date) {
+    return date.getDay() !== 0 && date.getDay() !== 6;
+  }
+
   /**
    * Build a month grid (array of weeks, each an array of 7 Dates) for the
    * given year/month (month is 0-based). Weeks start on Sunday.
@@ -53,9 +58,12 @@
   function createTask(input) {
     const title = String((input && input.title) || '').trim();
     if (!title) throw new Error('Task title is required.');
-    const dates = [...new Set((input.dates || []).filter((d) => parseDateKey(d)))].sort();
+    const dates = [...new Set((input.dates || []).filter((d) => {
+      const date = parseDateKey(d);
+      return date && isSelectableDate(date);
+    }))].sort();
     const weekdays = [...new Set((input.weekdays || []).map(Number))]
-      .filter((d) => Number.isInteger(d) && d >= 0 && d <= 6)
+      .filter((d) => Number.isInteger(d) && d >= 1 && d <= 5)
       .sort((a, b) => a - b);
     if (dates.length === 0 && weekdays.length === 0) {
       throw new Error('Assign at least one date or repeating weekday.');
@@ -99,6 +107,7 @@
     STORAGE_KEY,
     toDateKey,
     parseDateKey,
+    isSelectableDate,
     getMonthGrid,
     createTask,
     taskOccursOn,

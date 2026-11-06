@@ -8,6 +8,9 @@ test('toDateKey / parseDateKey round-trip', () => {
   assert.strictEqual(core.parseDateKey('2024-02-29').getTime(), d.getTime());
   assert.strictEqual(core.parseDateKey('2023-02-29'), null);
   assert.strictEqual(core.parseDateKey('nope'), null);
+  assert.strictEqual(core.isSelectableDate(new Date(2024, 4, 10)), true);
+  assert.strictEqual(core.isSelectableDate(new Date(2024, 4, 11)), false);
+  assert.strictEqual(core.isSelectableDate(new Date(2024, 4, 12)), false);
 });
 
 test('getMonthGrid returns full Sunday-start weeks covering the month', () => {
@@ -39,6 +42,21 @@ test('createTask validates input', () => {
   assert.ok(task.id);
 });
 
+test('createTask excludes weekends from specific dates and repeating weekdays', () => {
+  const task = core.createTask({
+    title: 'Weekdays only',
+    dates: ['2024-05-10', '2024-05-11', '2024-05-12'],
+    weekdays: [0, 1, 5, 6],
+  });
+  assert.deepStrictEqual(task.dates, ['2024-05-10']);
+  assert.deepStrictEqual(task.weekdays, [1, 5]);
+  assert.throws(() => core.createTask({
+    title: 'Weekend only',
+    dates: ['2024-05-11'],
+    weekdays: [0, 6],
+  }), /at least one/);
+});
+
 test('tasksForDate matches specific dates and repeating weekdays', () => {
   const once = core.createTask({ title: 'Dentist', dates: ['2024-05-10'] });
   const weekly = core.createTask({ title: 'Gym', weekdays: [1] }); // Mondays
@@ -61,6 +79,6 @@ test('saveTasks / loadTasks persist via storage and ignore bad data', () => {
 
   store[core.STORAGE_KEY] = '{not json';
   assert.deepStrictEqual(core.loadTasks(storage), []);
-  store[core.STORAGE_KEY] = JSON.stringify([{ title: '' }, { title: 'B', weekdays: [0] }]);
+  store[core.STORAGE_KEY] = JSON.stringify([{ title: '' }, { title: 'B', weekdays: [1] }]);
   assert.strictEqual(core.loadTasks(storage).length, 1);
 });
