@@ -1,3 +1,5 @@
-# Verify Standards
+# Custom Code Review Skill
 
-Before starting a code review, inspect the GitHub agent settings for configured MCPs. Call every MCP listed in those settings as part of the review, using the configured tools and available capabilities to gather relevant evidence. Do not silently skip a configured MCP; if one is unavailable or cannot be used for the review, state that limitation.
+Whenever a pull request is reviewed, you MUST use the `fetch` tool from the `fetch-web-context` MCP server to read the following public page and ensure the PR code matches its guidelines:
+
+- Target URL: https://example.com
