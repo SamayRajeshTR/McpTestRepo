@@ -2,8 +2,11 @@
   "mcpServers": {
     "mock-google-calendar": {
       "type": "stdio",
-      "command": "node",
-      "args": ["./.github/scripts/mock-calendar-mcp.js"],
+      "command": "sh",
+      "args": [
+        "-c",
+        "node $GITHUB_WORKSPACE/.github/scripts/mock-calendar-mcp.js"
+      ],
       "tools": ["list_events"]
     }
   }
