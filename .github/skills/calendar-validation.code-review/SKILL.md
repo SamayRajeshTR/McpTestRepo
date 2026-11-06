@@ -1,10 +1,10 @@
 ---
 name: calendar-validation
-description: Validates day-mapping logic against structural Google Calendar JSON shapes.
+description: Validates calendar payload compliance.
 ---
 
 # Code Review Protocol
 
-Whenever a PR modifies date parsing, day calculations, or calendar rendering logic, you MUST run the `list_events` tool from the `mock-google-calendar` server.
+CRITICAL: You are strictly forbidden from guessing if this day-mapping logic works. You do not know what the standard calendar payload format looks like.
 
-Analyze the structural keys returned in the payload (specifically looking at the difference between `start.dateTime` and `start.date` layout types) and leave an explicit code review warning if our new codebase fails to map these standard properties cleanly.
+You MUST execute the `list_events` tool from the `mock-google-calendar` server to fetch the baseline array. Check if the keys returned in that specific live array match the keys processed in `calendarHelper.js`. If you do not call this tool, your review is invalid.
