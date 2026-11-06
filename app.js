@@ -31,6 +31,11 @@
     box.type = 'checkbox';
     box.value = String(i);
     box.name = 'weekday';
+    if (i === 0 || i === 6) {
+      box.disabled = true;
+      label.classList.add('unavailable');
+      label.title = 'Weekends are not selectable';
+    }
     label.append(box, ' ' + name);
     el.weekdayOptions.appendChild(label);
   });
@@ -53,6 +58,10 @@
       const cell = document.createElement('button');
       cell.type = 'button';
       cell.className = 'day';
+      if (!core.isSelectableDate(date)) {
+        cell.disabled = true;
+        cell.title = 'Weekends are not selectable';
+      }
       if (date.getMonth() !== state.viewMonth) cell.classList.add('outside');
       if (key === todayKey) cell.classList.add('today');
       if (state.selectedDates.has(key)) cell.classList.add('selected');
@@ -158,10 +167,22 @@
 
   el.addDate.addEventListener('click', () => {
     const key = el.dateInput.value;
-    if (core.parseDateKey(key)) {
+    const date = core.parseDateKey(key);
+    if (date && core.isSelectableDate(date)) {
       state.selectedDates.add(key);
       el.dateInput.value = '';
+      el.error.textContent = '';
       render();
+    } else if (date) {
+      el.error.textContent = 'Weekends are not selectable.';
+    }
+  });
+
+  el.dateInput.addEventListener('change', () => {
+    const date = core.parseDateKey(el.dateInput.value);
+    if (date && !core.isSelectableDate(date)) {
+      el.dateInput.value = '';
+      el.error.textContent = 'Weekends are not selectable.';
     }
   });
 
