@@ -1,0 +1,9 @@
+{
+  "name": "calendar-app",
+  "version": "1.0.0",
+  "description": "A basic calendar app for adding your own tasks and assigning the days they show on.",
+  "private": true,
+  "scripts": {
+    "test": "node --test"
+  }
+}
