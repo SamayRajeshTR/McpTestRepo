@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "mock-google-calendar": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["./.github/scripts/mock-calendar-mcp.js"],
+      "tools": ["list_events"]
+    }
+  }
+}
