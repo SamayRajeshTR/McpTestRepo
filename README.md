@@ -20,8 +20,9 @@ python3 -m http.server 8000
 2. Assign the days it should appear on:
    - **Specific days** – pick a date and click **Add day**, or simply click days
      on the calendar to toggle them.
-   - **Repeat every** – tick weekdays (e.g. *Mon*) to show the task every week on
-     those days.
+   - **Series (repeat weekly)** – check this option to enable **Repeat every**,
+     then tick at least one weekday (e.g. *Mon*). The task appears every week on
+     those days, with no end date. Leave Series unchecked for one-time dates only.
 3. Click **Save task**. The task appears on every matching day in the calendar.
 4. Use ‹ / › to change month, **Today** to jump back, and **Delete** in
    *My tasks* to remove a task.

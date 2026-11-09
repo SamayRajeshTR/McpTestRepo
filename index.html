@@ -35,7 +35,11 @@
         </div>
         <ul id="selected-dates" class="chips"></ul>
 
-        <fieldset>
+        <label>
+          <input id="task-series" type="checkbox" aria-controls="repeat-options" />
+          Series (repeat weekly)
+        </label>
+        <fieldset id="repeat-options" disabled>
           <legend>Repeat every</legend>
           <div id="weekday-options" class="weekday-options"></div>
         </fieldset>
