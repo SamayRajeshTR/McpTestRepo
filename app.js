@@ -20,6 +20,8 @@
     dateInput: document.getElementById('task-date'),
     addDate: document.getElementById('add-date'),
     selectedDates: document.getElementById('selected-dates'),
+    series: document.getElementById('task-series'),
+    repeatOptions: document.getElementById('repeat-options'),
     weekdayOptions: document.getElementById('weekday-options'),
     error: document.getElementById('form-error'),
     taskList: document.getElementById('task-list'),
@@ -165,10 +167,19 @@
     }
   });
 
+  el.series.addEventListener('change', () => {
+    el.repeatOptions.disabled = !el.series.checked;
+  });
+
   el.form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const weekdays = [...el.weekdayOptions.querySelectorAll('input:checked')].map((b) => Number(b.value));
+    const weekdays = el.series.checked
+      ? [...el.weekdayOptions.querySelectorAll('input:checked')].map((b) => Number(b.value))
+      : [];
     try {
+      if (el.series.checked && weekdays.length === 0) {
+        throw new Error('Choose at least one weekday for the series.');
+      }
       const task = core.createTask({
         title: el.title.value,
         dates: [...state.selectedDates],
@@ -177,6 +188,7 @@
       state.tasks.push(task);
       persist();
       el.form.reset();
+      el.repeatOptions.disabled = true;
       state.selectedDates.clear();
       el.error.textContent = '';
       render();
