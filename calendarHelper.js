@@ -11,7 +11,7 @@ export function mapCalendarEventsToDays(apiResponse) {
     
     return {
       title: event.summary,
-      dayKey: eventTime.split('T')[0], // Extracting date components
+      dayKey: eventTime.split('T')[0], // Extracting date component
       isAllDay: false
     };
   });
